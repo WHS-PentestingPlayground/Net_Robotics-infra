@@ -1,12 +1,12 @@
 -- data/db/init.sql
 
 -- 데이터베이스 생성 및 사용
-CREATE DATABASE IF NOT EXISTS login_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE login_db;
+CREATE DATABASE IF NOT EXISTS net_robotics CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE net_robotics;
 
 -- 사용자 생성 및 권한 부여
-CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON login_db.* TO 'user'@'%';
+CREATE USER IF NOT EXISTS 'whs3'@'%' IDENTIFIED BY 'whs3password123!';
+GRANT ALL PRIVILEGES ON net_robotics.* TO 'whs3'@'%';
 FLUSH PRIVILEGES;
 
 -- 사용자 테이블
@@ -31,4 +31,16 @@ CREATE TABLE posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- 플래그 테이블
+CREATE TABLE flag (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    encrypted_file_data LONGTEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO flag (file_name, encrypted_file_data)
+VALUES ('secret_drawing.enc', '2TR5h3r59yBCSYadbmyyLbZ7yODksawpAS3KAyWfQ5gsLBmu024QhMaSEnn1JUKk6k7NFr01TbKI6SlE8l5jqw=='
 );

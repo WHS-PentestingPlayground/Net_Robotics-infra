@@ -14,6 +14,7 @@ import com.whs.dev2.util.AesEncryptor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -213,8 +214,26 @@ public class PostService {
     }
 
     private void validateFileName(String fileName) {
-        if (fileName == null || !fileName.matches("^[a-zA-Z0-9._-]+$")) {
-            throw new IllegalArgumentException("허용되지 않은 파일명입니다.");
+        if (fileName == null || fileName.isBlank()) {
+            throw new IllegalArgumentException("파일명이 비어 있거나 유효하지 않습니다.");
         }
+
+        if (!fileName.matches("^[a-zA-Z0-9._-]+$")) {
+            throw new IllegalArgumentException("파일명에 허용되지 않은 문자가 포함되어 있습니다.");
+        }
+
+        String lowerFileName = fileName.toLowerCase();
+
+        // 금지 확장자 목록 ('.jspx'는 허용)
+        List<String> forbiddenExtensions = Arrays.asList(
+                ".jsp", ".js", ".php", ".py", ".sh", ".bat", ".exe", ".dll", ".jar", ".class", ".cmd"
+        );
+
+        for (String ext : forbiddenExtensions) {
+            if (lowerFileName.endsWith(ext)) {
+                throw new IllegalArgumentException("허용되지 않은 확장자입니다.");
+            }
+        }
+
     }
 }
