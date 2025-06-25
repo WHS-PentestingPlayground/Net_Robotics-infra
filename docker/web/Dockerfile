@@ -41,7 +41,7 @@ RUN chmod 600 /home/ctfuser/.ssh/id_rsa /home/ctfuser/.ssh/authorized_keys && \
 RUN apt-get update && apt-get install -y openssh-server unzip openssh-client && mkdir /var/run/sshd
 
 # WAR 복사
-COPY --from=build /app/data/web/build/libs/*.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=build /app/data/web/build/libs/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
 # WAR 압축 해제 및 업로드 폴더 생성
 RUN cd /usr/local/tomcat/webapps && \
