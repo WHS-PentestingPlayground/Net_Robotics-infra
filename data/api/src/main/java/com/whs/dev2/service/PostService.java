@@ -96,7 +96,7 @@ public class PostService {
                         fileName
                 );
                 ProcessBuilder sshMvPb = new ProcessBuilder(
-                        "ssh", "-i", "/app/scripts/id_rsa",
+                        "ssh", "-i", "/home/tomcat/.ssh/id_rsa",
                         "-o", "StrictHostKeyChecking=no",
                         "-o", "UserKnownHostsFile=/dev/null",
                         "ctfuser@net_robotics_web",
