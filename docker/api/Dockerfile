@@ -32,8 +32,9 @@ WORKDIR /app
 
 # SSH 설치 및 sshd 준비
 RUN apt-get update && \
-    apt-get install -y openssh-client dos2unix openssh-server unzip && \
-    mkdir /var/run/sshd
+    apt-get install -y openssh-client dos2unix openssh-server unzip default-mysql-client && \
+    rm -rf /var/lib/apt/lists/ && \
+    mkdir -p /var/run/sshd
 
 # 애플리케이션 JAR 복사
 COPY --from=build /app/data/api/build/libs/api-0.0.1-SNAPSHOT.jar app.jar

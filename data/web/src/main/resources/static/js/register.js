@@ -6,6 +6,13 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const email = document.getElementById('email').value;
     const errorMessageDiv = document.getElementById('errorMessage');
 
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        errorMessageDiv.textContent = '비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.';
+        errorMessageDiv.style.display = 'block';
+        return;
+    }
+
     fetch('/api/users/register', {
         method: 'POST',
         headers: {
