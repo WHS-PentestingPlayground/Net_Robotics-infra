@@ -31,11 +31,25 @@ public class PostApiController {
         return ResponseEntity.ok(postService.getAllPosts());
     }
 
-    // 게시글 상세 조회
+    // 게시글 상세 조회 (자신의 게시글만 조회 가능)
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPost(@PathVariable Long id) {
+    public ResponseEntity<?> getPost(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String authHeader) {
+
+        User user = authenticate(authHeader);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
         try {
             PostResponseDto post = postService.getPost(id);
+
+            // 작성자 확인
+            if (!post.getAuthor().equals(user.getUsername())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인의 게시글만 조회할 수 있습니다.");
+            }
+
             return ResponseEntity.ok(post);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
