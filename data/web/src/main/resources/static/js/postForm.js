@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function () {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
         alert('로그인 후 이용 가능합니다.');
@@ -28,13 +29,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // 폼 제출 처리
-    document.getElementById('postForm').addEventListener('submit', function(e) {
+    document.getElementById('postForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('title', document.getElementById('title').value);
-        formData.append('content', document.getElementById('content').value);
+        const title = document.getElementById('title').value.trim();
+        const content = document.getElementById('content').value.trim();
         const fileInput = document.getElementById('file');
+
+        // 확장자 검사 (jsp, exe, sh, php 등 금지)
+        const forbiddenExtensions = ['jsp', 'js', 'php', 'sh', 'bat', 'exe', 'dll', 'jar', 'class', 'cmd'];
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name;
+            const extension = fileName.split('.').pop().toLowerCase();
+            if (forbiddenExtensions.includes(extension)) {
+                alert(`업로드할 수 없는 파일 형식입니다: .${extension}`);
+                return;
+            }
+        }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
         if (fileInput.files.length > 0) {
             formData.append('file', fileInput.files[0]);
         }
