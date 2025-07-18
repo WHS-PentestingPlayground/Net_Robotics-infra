@@ -4,15 +4,29 @@ networks:
   int-net:
 
 services:
-  web-server:
+  nginx:
+    image: nginx:alpine
+    container_name: net_robotics_nginx
+    ports:
+      - "80:80"
+    networks:
+      - ext-net
+      - int-net
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web-server-1
+      - web-server-2
+      - api-server-1
+      - api-server-2
+    restart: always
+
+  web-server-1:
     build:
       context: .
       dockerfile: docker/web/Dockerfile
-    container_name: net_robotics_web
-    ports:
-      - "80:8080"
+    container_name: net_robotics_web_1
     networks:
-      - ext-net
       - int-net
     depends_on:
       db-server:
@@ -23,11 +37,46 @@ services:
       - API_SERVER_URL=${API_SERVER_URL}
     restart: always
 
-  api-server:
+  web-server-2:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    container_name: net_robotics_web_2
+    networks:
+      - int-net
+    depends_on:
+      db-server:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - API_SERVER_URL=${API_SERVER_URL}
+    restart: always
+
+  api-server-1:
     build:
       context: .
       dockerfile: docker/api/Dockerfile
-    container_name: net_robotics_api
+    container_name: net_robotics_api_1
+    networks:
+      - int-net
+    depends_on:
+      db-server:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: always
+
+  api-server-2:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: net_robotics_api_2
     networks:
       - int-net
     depends_on:

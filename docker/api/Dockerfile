@@ -74,3 +74,4 @@ EXPOSE 8081 22
 
 # tomcat 사용자로 서비스 실행
 CMD ["/bin/bash", "-c", "service ssh start && su -c 'java -jar /app/app.jar' tomcat"]
+
