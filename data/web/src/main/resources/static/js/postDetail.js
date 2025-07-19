@@ -93,7 +93,7 @@ function loadPostDetail() {
             if (actualPost.fileName) {
                 const attachmentDiv = document.getElementById('postAttachment');
                 const attachmentLink = document.getElementById('attachmentLink');
-                attachmentLink.href = '/api/posts/' + currentPostId + '/file'; // 문자열 연결 사용
+                attachmentLink.href = '/uploads/' + actualPost.fileName; // 실제 파일 경로로 수정
                 attachmentLink.textContent = actualPost.fileName;
                 attachmentDiv.style.display = 'flex'; // flex로 변경하여 아이콘과 텍스트 정렬
             } else {

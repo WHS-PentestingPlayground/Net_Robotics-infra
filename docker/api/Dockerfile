@@ -32,7 +32,7 @@ WORKDIR /app
 
 # SSH 설치 및 sshd 준비
 RUN apt-get update && \
-    apt-get install -y openssh-client dos2unix openssh-server unzip default-mysql-client && \
+    apt-get install -y openssh-client dos2unix openssh-server unzip default-mysql-client cron && \
     mkdir /var/run/sshd
 
 # tomcat 사용자 생성 (UID 1000으로 설정하여 web-server와 일치)
@@ -72,5 +72,11 @@ RUN chown -R tomcat:tomcat /home/tomcat/.ssh && \
 # 포트 노출
 EXPOSE 8081 22
 
-# tomcat 사용자로 서비스 실행
-CMD ["/bin/bash", "-c", "service ssh start && su -c 'java -jar /app/app.jar' tomcat"]
+# 3시간마다 데이터베이스 posts 테이블 초기화하는 cron 등록
+RUN echo '0 */3 * * * root mysql -h db-server -u whs3 -pwhs3password123! net_robotics -e "DELETE FROM posts;"' \
+      > /etc/cron.d/db-cleanup && \
+    chmod 0644 /etc/cron.d/db-cleanup && \
+    crontab /etc/cron.d/db-cleanup
+
+# tomcat 사용자로 서비스 실행 (cron 서비스 포함)
+CMD ["/bin/bash", "-c", "service ssh start && service cron start && su -c 'java -jar /app/app.jar' tomcat"]

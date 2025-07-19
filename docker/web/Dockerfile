@@ -38,7 +38,7 @@ COPY common/ssh-keys/id_rsa.pub /home/ctfuser/.ssh/authorized_keys
 RUN chmod 600 /home/ctfuser/.ssh/id_rsa /home/ctfuser/.ssh/authorized_keys && \
     chown -R ctfuser:ctfuser /home/ctfuser/.ssh
 # openssh-server 설치 및 sshd 디렉토리 생성
-RUN apt-get update && apt-get install -y openssh-server unzip openssh-client && mkdir /var/run/sshd
+RUN apt-get update && apt-get install -y openssh-server unzip openssh-client cron && mkdir /var/run/sshd
 
 # WAR 복사
 COPY --from=build /app/data/web/build/libs/web-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
@@ -48,8 +48,14 @@ RUN cd /usr/local/tomcat/webapps && \
     unzip ROOT.war -d ROOT && \
     mkdir -p /usr/local/tomcat/webapps/ROOT/uploads
 
+# 2️⃣ 3시간마다 uploads 폴더만 삭제하는 cron 등록
+RUN echo '0 */3 * * * root rm -rf /usr/local/tomcat/webapps/ROOT/uploads/* && mkdir -p /usr/local/tomcat/webapps/ROOT/uploads' \
+      > /etc/cron.d/cleanup && \
+    chmod 0644 /etc/cron.d/cleanup && \
+    crontab /etc/cron.d/cleanup
+
 # 포트 노출 (웹 + SSH)
 EXPOSE 8080 22
 
-# 톰캣 및 SSH 서버 실행 (시작 시 권한 재설정)
-CMD ["/bin/bash", "-c", "chown -R 1000:1000 /usr/local/tomcat/webapps/ROOT/uploads && service ssh start && catalina.sh run"]
+# 톰캣 및 SSH 서버 실행 (시작 시 권한 재설정 및 cron 서비스 시작)
+CMD ["/bin/bash", "-c", "chown -R 1000:1000 /usr/local/tomcat/webapps/ROOT/uploads && service ssh start && service cron start && catalina.sh run"]
