@@ -68,7 +68,7 @@ function loadPosts() {
                 const rowHtml = '<tr>' +
                     '<td data-label="번호">' + postNumber + '</td>' +
                     '<td data-label="제목">' +
-                    '<a href="/board/posts/' + post.id + '" class="post-title-link">' +
+                    '<a href="#" class="post-title-link" data-post-id="' + post.id + '" data-post-author="' + (post.author || '알 수 없음') + '">' +
                     post.title + fileAttachmentIcon +
                     '</a>' +
                     '</td>' +
@@ -77,6 +77,43 @@ function loadPosts() {
                     '</tr>';
 
                 tbody.insertAdjacentHTML('beforeend', rowHtml);
+            });
+
+            // 게시글 링크 클릭 이벤트 리스너 추가
+            document.querySelectorAll('.post-title-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const postId = this.getAttribute('data-post-id');
+                    const postAuthor = this.getAttribute('data-post-author');
+
+                    // 현재 로그인한 사용자 정보 가져오기
+                    fetch('/api/users/me', {
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('사용자 정보를 가져올 수 없습니다.');
+                            }
+                            return response.json();
+                        })
+                        .then(user => {
+                            // 게시글 작성자와 현재 사용자 비교
+                            if (user.username === postAuthor) {
+                                // 본인이 작성한 글인 경우 상세 페이지로 이동
+                                window.location.href = '/board/posts/' + postId;
+                            } else {
+                                // 다른 사람이 작성한 글인 경우 경고 메시지
+                                alert('본인이 작성한 게시글만 읽을 수 있습니다.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('사용자 정보 확인 오류:', error);
+                            alert('사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요.');
+                            window.location.href = '/login';
+                        });
+                });
             });
         })
         .catch(error => {
