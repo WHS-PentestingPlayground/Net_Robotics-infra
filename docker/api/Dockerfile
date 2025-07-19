@@ -32,7 +32,7 @@ WORKDIR /app
 
 # SSH 설치 및 sshd 준비
 RUN apt-get update && \
-    apt-get install -y openssh-client dos2unix openssh-server unzip && \
+    apt-get install -y openssh-client dos2unix openssh-server unzip default-mysql-client && \
     mkdir /var/run/sshd
 
 # tomcat 사용자 생성 (UID 1000으로 설정하여 web-server와 일치)
