@@ -62,21 +62,46 @@ function loadPosts() {
             posts.forEach((post, index) => {
                 const createdAt = new Date(post.createdAt).toLocaleDateString('ko-KR');
                 const postNumber = posts.length - index;
-                const fileAttachmentIcon = post.hasAttachment ? '<span class="file-icon">📎</span>' : '';
 
-                // HTML 문자열에 data-label 속성 추가
-                const rowHtml = '<tr>' +
-                    '<td data-label="번호">' + postNumber + '</td>' +
-                    '<td data-label="제목">' +
-                    '<a href="#" class="post-title-link" data-post-id="' + post.id + '" data-post-author="' + (post.author || '알 수 없음') + '">' +
-                    post.title + fileAttachmentIcon +
-                    '</a>' +
-                    '</td>' +
-                    '<td data-label="작성자">' + (post.author || '알 수 없음') + '</td>' +
-                    '<td data-label="작성일">' + createdAt + '</td>' +
-                    '</tr>';
+                const tr = document.createElement('tr');
 
-                tbody.insertAdjacentHTML('beforeend', rowHtml);
+                // 번호
+                const tdNum = document.createElement('td');
+                tdNum.textContent = postNumber;
+                tdNum.setAttribute('data-label', '번호');
+                tr.appendChild(tdNum);
+
+                // 제목
+                const tdTitle = document.createElement('td');
+                tdTitle.setAttribute('data-label', '제목');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.className = 'post-title-link';
+                a.dataset.postId = post.id;
+                a.dataset.postAuthor = post.author || '알 수 없음';
+                a.textContent = post.title;
+                if (post.hasAttachment) {
+                    const icon = document.createElement('span');
+                    icon.className = 'file-icon';
+                    icon.textContent = '📎';
+                    a.appendChild(icon);
+                }
+                tdTitle.appendChild(a);
+                tr.appendChild(tdTitle);
+
+                // 작성자
+                const tdAuthor = document.createElement('td');
+                tdAuthor.setAttribute('data-label', '작성자');
+                tdAuthor.textContent = post.author || '알 수 없음';
+                tr.appendChild(tdAuthor);
+
+                // 작성일
+                const tdDate = document.createElement('td');
+                tdDate.setAttribute('data-label', '작성일');
+                tdDate.textContent = createdAt;
+                tr.appendChild(tdDate);
+
+                tbody.appendChild(tr);
             });
 
             // 게시글 링크 클릭 이벤트 리스너 추가
@@ -123,4 +148,13 @@ function loadPosts() {
             document.getElementById('totalCount').textContent = 0;
             document.getElementById('emptyMessage').style.display = 'none'; // 오류 시 빈 메시지는 숨김
         });
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
