@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import com.whs.dev2.util.AesEncryptor;
+import com.whs.dev2.dto.PostSummaryDto;
 
 
 import java.io.File;
@@ -28,6 +29,12 @@ public class PostService {
     public List<PostResponseDto> getAllPosts() {
         return postRepository.findAllByOrderByIdDesc().stream()
                 .map(PostResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostSummaryDto> getAllPostSummaries() {
+        return postRepository.findAllByOrderByIdDesc().stream()
+                .map(PostSummaryDto::new)
                 .collect(Collectors.toList());
     }
 

@@ -62,7 +62,7 @@ function loadPosts() {
             posts.forEach((post, index) => {
                 const createdAt = new Date(post.createdAt).toLocaleDateString('ko-KR');
                 const postNumber = posts.length - index;
-                const fileAttachmentIcon = post.fileName ? '<span class="file-icon">📎</span>' : '';
+                const fileAttachmentIcon = post.hasAttachment ? '<span class="file-icon">📎</span>' : '';
 
                 // HTML 문자열에 data-label 속성 추가
                 const rowHtml = '<tr>' +
