@@ -33,6 +33,24 @@ CREATE TABLE posts (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+DELIMITER $$
+
+CREATE TRIGGER prevent_rapid_post_insert
+BEFORE INSERT ON posts
+FOR EACH ROW
+BEGIN
+    IF (
+        SELECT COUNT(*) FROM posts
+        WHERE user_id = NEW.user_id
+          AND created_at >= (NOW() - INTERVAL 5 SECOND)
+    ) > 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'You can only create a post every 10 seconds.';  
+    END IF;
+END$$
+
+DELIMITER ;
+
 -- 플래그 테이블
 CREATE TABLE flag (
     id INT AUTO_INCREMENT PRIMARY KEY,

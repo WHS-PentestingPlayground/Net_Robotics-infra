@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,10 @@ public class PostService {
 
     @Transactional
     public PostResponseDto createPost(PostRequestDto dto, User user, MultipartFile file) {
+        // 10초 이내 중복 작성 방지 (DB 시간 기준으로 체크)
+        if (postRepository.countRecentPostsByUserId(user.getId()) > 0) {
+            throw new IllegalStateException("10초 이내에는 게시글을 연속으로 작성할 수 없습니다.");
+        }
         Post post = new Post();
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());

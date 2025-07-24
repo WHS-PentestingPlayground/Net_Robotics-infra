@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false, insertable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
@@ -26,7 +26,7 @@ public abstract class BaseEntity {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        // this.createdAt = LocalDateTime.now(); // DB의 DEFAULT CURRENT_TIMESTAMP에 맡김
         this.updatedAt = LocalDateTime.now();
     }
 
