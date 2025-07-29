@@ -60,5 +60,5 @@ CREATE TABLE flag (
 );
 
 INSERT INTO flag (file_name, encrypted_file_data)
-VALUES ('secret_drawing.enc', '2TR5h3r59yBCSYadbmyyLbZ7yODksawpAS3KAyWfQ5gsLBmu024QhMaSEnn1JUKk6k7NFr01TbKI6SlE8l5jqw=='
+VALUES ('aes_encrypted.enc', '2TR5h3r59yBCSYadbmyyLbZ7yODksawpAS3KAyWfQ5gsLBmu024QhMaSEnn1JUKk6k7NFr01TbKI6SlE8l5jqw=='
 );
