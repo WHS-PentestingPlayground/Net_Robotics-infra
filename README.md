@@ -81,3 +81,17 @@ docker-compose build [service-name]
 
 <img width="1191" height="533" alt="스크린샷 2025-07-30 181937" src="https://github.com/user-attachments/assets/90e38a0a-1e0d-4ce4-b803-dc8cb0adeed5" />
 
+
+---
+
+## Write-up
+### 침투 흐름 요약
+1. Web 서버에서 File Upload 취약점을 통해 webshell을 업로드하고, RCE 권한을 획득한다.
+2. tunnel.jsp 파일을 업로드하여 HTTP Tunneling 환경을 구축한다.
+3. SOCKS 프록시(SOCKS5) 연결을 통해 공격자 PC에서 내부망에 접근한다.
+4. Webshell로 탈취한 SSH 개인키를 이용하여 내부 API 서버에 접속하고, DB에 접근한다.
+5. DB에서 AES로 암호화된 Flag 파일을 확보한 후 복호화하여 최종적으로 Flag를 획득한다.
+
+자세한 설명은 아래의 첨부 파일을 확인하시면 됩니다.
+
+[tunneling..DB…FLAG_writeup.pdf](https://github.com/user-attachments/files/21506837/tunneling.DB.FLAG_writeup.pdf)
