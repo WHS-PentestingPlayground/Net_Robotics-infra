@@ -9,7 +9,7 @@
 - **Backend**: Spring Boot, JWT  
 - **Infra**: Docker, Docker Compose  
 - **DB**: MySQL  
-- **ETC**: NGINX, Tomcat
+- **ETC**: Tomcat
 
 ---
 
