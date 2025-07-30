@@ -84,15 +84,30 @@ docker-compose build [service-name]
 
 ---
 
-## Write-up
-### 침투 흐름 요약
-1. Web 서버에서 File Upload 취약점을 통해 webshell을 업로드하고, RCE 권한을 획득한다.
-2. tunnel.jsp 파일을 업로드하여 HTTP Tunneling 환경을 구축한다.
-3. SOCKS 프록시(SOCKS5) 연결을 통해 공격자 PC에서 내부망에 접근한다.
-4. Webshell로 탈취한 SSH 개인키를 이용하여 내부 API 서버에 접속하고, DB에 접근한다.
-5. DB에서 AES로 암호화된 Flag 파일을 확보한 후 복호화하여 최종적으로 Flag를 획득한다.
+## 시나리오
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/d1a9c4d5-205a-4b56-aa88-0cfaf1e1f32d" />
 
-자세한 설명은 아래의 첨부 파일을 확인하시면 됩니다.
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/f3583c9a-3d6b-4072-96ed-3ad7be0abadf" />
 
-[tunneling..DB…FLAG_writeup.pdf](https://github.com/user-attachments/files/21506919/tunneling.DB.FLAG_writeup.pdf)
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/fa5f2ddd-7a05-47be-9505-fe23f59202ed" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/893f51a3-4472-4454-83fd-894cb6458956" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/ea1f3864-7fb2-4a6e-b3b5-cba1cacbef66" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/5d0aad42-13cf-4e24-a138-3c3b71c2d531" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/0929fe1e-6a8e-4c24-a6a6-17a622fd46fd" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/2fd90878-5710-4086-b932-7f7c9bf3e1cd" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/c7b859e1-160c-42f7-924c-7a28ba81c7ff" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/4d850b44-3cd6-4b00-b151-9f61c719b3a5" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/69db5bbe-550c-4bd6-ae8d-db50c38727d6" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/61fc1812-d7a8-42a2-857e-525c73546275" />
+
+<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/2a4d001a-c51c-4c64-ab27-6ab5afc50f5d" />
 
