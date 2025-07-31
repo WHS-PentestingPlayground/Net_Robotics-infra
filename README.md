@@ -42,13 +42,62 @@ docker-compose logs -f [service-name]
 docker-compose build [service-name]
 ```
 
----
-
 ## 👏 기여자 표
 
-| Profile | Role | Expertise |
-|---------|------|-----------|
-| (작성 예정) | (작성 예정) | (작성 예정) |
+<h3>Project Team</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Role</th>
+      <th>Contribution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/kkaturi14">
+          <img src="https://github.com/kkaturi14.png" width="60"/><br/>
+          minkyungkwak
+        </a>
+      </td>
+      <td align="center">Project Member</td>
+      <td align="center">시나리오 문서 작성</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/yelin1197">
+          <img src="https://github.com/yelin1197.png" width="60"/><br/>
+          yelin1197
+        </a>
+      </td>
+      <td align="center">Project Member</td>
+      <td align="center">도커 구성 및 암호화 기능 개발</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/legendwon">
+          <img src="https://github.com/legendwon.png" width="60"/><br/>
+          legendwon
+        </a>
+      </td>
+      <td align="center">Project Manager</td>
+      <td align="center">PM 총괄, 시나리오 문서 작성</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Ranunculus2165">
+          <img src="https://github.com/Ranunculus2165.png" width="60"/><br/>
+          woo.__.bee
+        </a>
+      </td>
+      <td align="center">Project Member</td>
+      <td align="center">게시판 기능 개발</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
@@ -85,7 +134,7 @@ docker-compose build [service-name]
 ---
 
 ## 시나리오
-<img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/d1a9c4d5-205a-4b56-aa88-0cfaf1e1f32d" />
+<img width="1700" height="2200" alt="tunneling DB…FLAG_writeup-02" src="https://github.com/user-attachments/assets/89cdabd7-d554-40ea-b3ad-229b7dfae342" />
 
 <img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/f3583c9a-3d6b-4072-96ed-3ad7be0abadf" />
 
