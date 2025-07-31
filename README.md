@@ -1,6 +1,6 @@
-# 🔐 tunneling..DB…FLAG?
-
-목표:  DB서버내 FLAG를 털어라!
+# 🔐 Net_Robotics
+이 프로젝트는 Pentesting playground 플랫폼을 위한 시나리오로, 망분리 환경에 기반한 웹 취약점부터 내부망 침투까지 chaining 형식으로 구성되어있습니다. 
+이 문서는 프로젝트의 설치 방법, 기여자 정보, 기술 스택, 협업 방식, 개발 기간, 시스템 아키텍처, ERD, 그리고 시나리오를 설명합니다.
 
 ---
 
@@ -14,16 +14,17 @@
 ---
 
 ## 📑 목차
-1. 주요 명령어  
-2. 기여자표  
+1. 서버 설치 방법
+2. 기여자 표  
 3. 협업 방식  
 4. 개발 기간  
 5. 공격 흐름도  
-6. ERD  
+6. ERD
+7. 시나리오 Write up
 
 ---
 
-## 주요 명령어
+## 서버 설치 방법
 
 ```bash
 # 저장소 클론
@@ -112,10 +113,12 @@ docker-compose build [service-name]
 ---
 
 ## 📆 개발 기간
-
-| 날짜 | 내용 |
-|------|------|
-| (작성 예정) | (작성 예정) |
+- 2025.05.01 ~ 2025.05.03 : 팀 규칙 및 코딩 컨벤션 의논, 시나리오 컨셉 회의</br>
+- 2025.05.03 ~ 2025.05.10 : 시나리오 취약점 및 망분리 환경 공부</br>
+- 2025.05.10 ~ 2025.05.18 : 프로젝트 개발 환경 세팅</br>
+- 2025.05.18 ~ 2025.05.31 : 시나리오 기획, 기능명세서, ERD 제작</br>
+- 2025.05.31 ~ 2025.06.09 : 게시판 구현 및 도커화</br>
+- 2025.06.09 ~ 2025.06.22 : 취약점(File Upload, HTTP 터널링, 내부망 침투, AES 암호화 등)구현 및 난이도조정</br>
 
 ---
 
@@ -133,7 +136,7 @@ docker-compose build [service-name]
 
 ---
 
-## 시나리오
+## 시나리오 Write up
 <img width="1700" height="2200" alt="tunneling DB…FLAG_writeup-02" src="https://github.com/user-attachments/assets/89cdabd7-d554-40ea-b3ad-229b7dfae342" />
 
 <img width="1700" height="2200" alt="Image" src="https://github.com/user-attachments/assets/f3583c9a-3d6b-4072-96ed-3ad7be0abadf" />
