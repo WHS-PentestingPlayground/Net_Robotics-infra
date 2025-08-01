@@ -1,0 +1,69 @@
+#docker-compose.yml
+networks:
+  ext-net:
+  int-net:
+
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    container_name: net_robotics_web
+    ports:
+      - "80:8080"
+    networks:
+      - ext-net
+      - int-net
+    depends_on:
+      db-server:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - API_SERVER_URL=${API_SERVER_URL}
+    restart: always
+
+  api-server:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: net_robotics_api
+    networks:
+      - int-net
+    depends_on:
+      db-server:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: always
+
+  db-server:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    container_name: net_robotics_db
+    networks:
+      - int-net
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./data/db:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
